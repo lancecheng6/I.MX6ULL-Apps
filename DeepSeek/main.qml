@@ -86,7 +86,7 @@ Window {
             anchors.topMargin: 12
             anchors.bottomMargin: 12
             color: "white"
-            placeholderText: "Message ChatGPT..."
+            placeholderText: "Message DeepSeek..."
             placeholderTextColor: "#8e8ea0"
             font.pixelSize: 18
             wrapMode: TextEdit.Wrap
