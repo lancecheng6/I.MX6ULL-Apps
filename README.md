@@ -84,8 +84,8 @@ Each app folder contains its own `README.md` with app-specific details
 
 ### PiAgent — Pi coding agent on-board
 
-> **Purpose:** deploy the AI as an **autonomous controller of the embedded
-> system** — the agent senses the hardware (GPIO, sensors, UART/RS-485,
+> **Purpose:** deploy the AI — an **OpenClaw-like agent** — as an
+> **autonomous controller of the embedded system** — the agent senses the hardware (GPIO, sensors, UART/RS-485,
 > system status), reasons & **makes decisions** with an LLM, then **acts**
 > through tools to drive the hardware — i.e. **AI-driven automation**.
 > `PiAgent/` is the on-board foundation for that: a Qt chat app that drives
