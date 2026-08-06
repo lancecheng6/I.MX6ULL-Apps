@@ -7,7 +7,7 @@ built on the board's custom embedded Linux BSP.
 
 | Component | Specification |
 |-----------|---------------|
-| **SoC** | NXP i.MX6ULL, Cortex-A7 @ 792MHz (ARMv7, no GPU — software rendering) |
+| **SoC** | NXP i.MX6ULL, Cortex-A7 @ 792MHz (ARMv7, no GPU — software rendering; runs at ~396 MHz) |
 | **RAM** | 512MB DDR3L |
 | **Storage** | 8GB eMMC (mmcblk1) |
 | **Display** | ATK-MD0700R 7" 1024x600 RGB888 (DRM mxsfb + PWM backlight) |
