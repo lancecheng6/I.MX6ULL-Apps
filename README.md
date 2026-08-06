@@ -49,6 +49,7 @@ built on the board's custom embedded Linux BSP.
 ```
 I.MX6ULL-Apps/
 ├── DeepSeek/          ChatGPT-style client (DeepSeek V4 Flash) — see DeepSeek/README.md
+├── PiAgent/           Pi Agent (earendil-works/pi coding agent) as a Qt chat app — see PiAgent/DevLog_20260805.md
 ├── client/            SystemUICommonApiClient (shared dependency)
 ├── Repcs/             Qt Remote Objects .rep definitions (shared dependency)
 └── README.md
@@ -80,3 +81,39 @@ Register the app in the launcher cfg (`/opt/ui/src/ATK/apk1.cfg` or
 
 Each app folder contains its own `README.md` with app-specific details
 (features, configuration, API keys, etc.).
+
+### PiAgent — Pi coding agent on-board
+
+> **Purpose:** deploy the AI as an **autonomous controller of the embedded
+> system** — the agent senses the hardware (GPIO, sensors, UART/RS-485,
+> system status), reasons & **makes decisions** with an LLM, then **acts**
+> through tools to drive the hardware — i.e. **AI-driven automation**.
+> `PiAgent/` is the on-board foundation for that: a Qt chat app that drives
+> the open-source **pi coding agent**
+> (`earendil-works/pi`, npm `@earendil-works/pi-coding-agent`) in headless RPC
+> mode (`pi --mode rpc`, JSONL over stdin/stdout via `QProcess`), using the
+> **OpenCode Zen** endpoint (`https://opencode.ai/zen/go/v1`,
+> model `deepseek-v4-flash`) through a custom provider in
+> `~/.pi/agent/models.json`.
+
+Runtime requirements on the board:
+
+- **Node.js 22** (`linux-armv7l` prebuilt, installed to `/opt/node`).
+- **pi 0.83.x** installed globally via `npm install -g --ignore-scripts`.
+- **Clock sync**: the board has no RTC; `S55ntp` (boot script) syncs time from
+  an HTTP `Date:` header — mandatory for TLS (`CERT_NOT_YET_VALID` otherwise).
+- **HOME**: the app forces `HOME=/root` when spawning pi (SystemUI inherits
+  `HOME=/` which makes pi miss `~/.pi/agent/models.json`).
+
+UI/UX highlights: one bubble per answer with throttled streaming
+(100 ms coalescing), `working...`/`ready` status, Send locked while working,
+`cacheBuffer` + user-drag-aware auto-scroll (see the DevLog's scroll-debugging
+chapter — the hardest part).
+
+**Autonomy & automation roadmap:**
+- The agent already has `bash` — it can read `/sys`, run `gpioset`/`devmem`,
+  write to serial ports, toggle relays, … so it can already **sense → decide
+  → actuate** from the chat interface.
+- Next step: register purpose-built hardware tools (`gpio_set`, `uart_send`,
+  `sensor_read`, `relay_toggle`) via pi extensions/skills for clean, safe,
+  fully autonomous control of the embedded system.
